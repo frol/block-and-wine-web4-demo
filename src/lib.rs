@@ -14,7 +14,7 @@ impl Contract {
         if request.path == "/" {
             Web4Response::Body {
                 content_type: "text/html; charset=UTF-8".to_owned(),
-                body: "<h1>Hello from Web4 on NEAR!</h1>".as_bytes().to_owned().into(),
+                body: include_bytes!("index.html").to_vec().into(),
             }
         } else {
             Web4Response::Body {
@@ -25,7 +25,7 @@ impl Contract {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Web4Request {
     #[serde(rename = "accountId")]
@@ -54,15 +54,4 @@ pub enum Web4Response {
         #[serde(rename = "preloadUrls")]
         preload_urls: Vec<String>,
     },
-}
-
-
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
 }
